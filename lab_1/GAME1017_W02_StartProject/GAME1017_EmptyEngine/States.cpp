@@ -50,7 +50,7 @@ void TitleState::Exit()
 void GameState::Enter()
 {
 	cout << "Enter GameState --> " << endl;
-	m_pMusic = Mix_LoadMUS("Aud/Turtles.mp3");
+	m_pMusic = Mix_LoadMUS("Aud/Thundercats.mp3");
 	m_pSounds_1 = Mix_LoadWAV("Aud/boom.wav");
 	m_pSounds_2 = Mix_LoadWAV("Aud/jump.wav");
 	Mix_PlayMusic(m_pMusic, -1);
@@ -68,6 +68,23 @@ void GameState::Update()
 	{
 		cout << "changing to pauseState" << endl;
 		STMA::PushState(new PauseState());
+	}
+	if (Engine::Instance().KeyDown(SDL_SCANCODE_E))
+	{
+		cout << "changing to endState" << endl;
+		STMA::ChangeState(new EndState());
+	}
+
+	if (Engine::Instance().KeyDown(SDL_SCANCODE_1))
+	{
+		cout << "playing sound 1" << endl;
+		Mix_PlayChannel(-1, m_pSounds_1, 0);
+	}
+
+	if (Engine::Instance().KeyDown(SDL_SCANCODE_2))
+	{
+		cout << "playing sound 2" << endl;
+		Mix_PlayChannel(-1, m_pSounds_2, 0);
 	}
 
 }
@@ -126,4 +143,31 @@ void PauseState::Render()
 void PauseState::Exit()
 {
 	cout << "exit pauseState----->" << endl;
+}
+
+
+
+
+void EndState::Enter()
+{
+	cout << "Enter endState --> " << endl;
+}
+void EndState::Update()
+{
+	if (Engine::Instance().KeyDown(SDL_SCANCODE_X))
+	{
+		cout << "changing to end state" << endl;
+		STMA::ChangeState(new TitleState);
+	}
+}
+void EndState::Render()
+{
+	cout << "crendering  to edn state" << endl;
+	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 0, 100, 100);
+	SDL_RenderClear(Engine::Instance().GetRenderer());
+	State::Render();
+}
+void EndState::Exit()
+{
+	cout << "exit end state----->" << endl;
 }
