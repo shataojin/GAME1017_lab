@@ -8,6 +8,7 @@
 #include "SDL.h"
 #include "SDL_image.h"
 #include "SDL_mixer.h"
+#include <vector>
 #define FPS 60
 #define WIDTH 1024
 #define HEIGHT 768
@@ -36,6 +37,7 @@ public: // public method prototypes.
 	Engine() {}
 	int Run();
 	// Add static method for singleton here
+	static Engine& Instance();
 	SDL_Renderer* GetRenderer() { return m_pRenderer; }
 	bool KeyDown(SDL_Scancode c);
 };
