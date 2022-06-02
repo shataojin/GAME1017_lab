@@ -5,10 +5,11 @@
 #include <iostream>
 #include <map>
 #include <string>
+#include <vector>
+
 #include "SDL.h"
 #include "SDL_image.h"
 #include "SDL_mixer.h"
-#include <vector>
 #define FPS 60
 #define WIDTH 1024
 #define HEIGHT 768
@@ -22,8 +23,15 @@ private: // private properties.
 	const Uint8* m_keystates;
 	SDL_Window* m_pWindow;
 	SDL_Renderer* m_pRenderer;
-
+	Mix_Music* m_pMusic;
+	Mix_Chunk* m_pSounds;
 private: // private method prototypes.
+
+	Engine()
+	{
+		cout << "creating instance of engine..." << endl;
+	}
+
 	int Init(const char* title, int xPos, int yPos, int width, int height, int flags);
 	void Clean();
 	void Wake();
@@ -34,7 +42,7 @@ private: // private method prototypes.
 	void Sleep();
 
 public: // public method prototypes.
-	Engine() {}
+
 	int Run();
 	// Add static method for singleton here
 	static Engine& Instance();

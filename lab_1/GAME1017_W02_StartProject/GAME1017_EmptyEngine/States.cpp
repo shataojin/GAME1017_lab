@@ -14,8 +14,8 @@ void TitleState::Enter()
 {
 	cout << "Enter Title State --> " << endl;
 	////load music track, add it to map, and  play
-	//m_pMusic = Mix_LoadMUS("Aud/Turtles.mp3");
-	//Mix_PlayMusic(m_pMusic, -1);
+	m_pMusic = Mix_LoadMUS("Aud/Turtles.mp3");
+	Mix_PlayMusic(m_pMusic, -1);
 }
 
 void TitleState::Update()
@@ -38,7 +38,7 @@ void TitleState::Render()
 void TitleState::Exit()
 {
 	cout << "exit title state----->" << endl;
-	//call mix_freeMusic on track
+
 
 }
 
@@ -50,11 +50,10 @@ void TitleState::Exit()
 void GameState::Enter()
 {
 	cout << "Enter GameState --> " << endl;
-	//load music track and music sfx , add it to map, and  play
-	//m_pMusic = Mix_LoadMUS("Aud/Turtles.mp3");
-	//m_pSounds_1 = Mix_LoadWAV("Aud/boom.wav");
-	//m_pSounds_2 = Mix_LoadWAV("Aud/jump.wav");
-	//Mix_PlayMusic(m_pMusic, -1);
+	m_pMusic = Mix_LoadMUS("Aud/Turtles.mp3");
+	m_pSounds_1 = Mix_LoadWAV("Aud/boom.wav");
+	m_pSounds_2 = Mix_LoadWAV("Aud/jump.wav");
+	Mix_PlayMusic(m_pMusic, -1);
 }
 
 void GameState::Update()
@@ -128,32 +127,3 @@ void PauseState::Exit()
 {
 	cout << "exit pauseState----->" << endl;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-void EndState::Update()
-{
-	if (Engine::Instance().KeyDown(SDL_SCANCODE_R))
-	{
-		cout << "changing to game state" << endl;
-		STMA::ChangeState(new TitleState);
-	}
-}
-void EndState::Render()
-{
-	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 0, 255, 255);
-	SDL_RenderClear(Engine::Instance().GetRenderer());
-	State::Render();
-}
-void EndState::Exit()
-{
-	cout << "exit end state----->" << endl;

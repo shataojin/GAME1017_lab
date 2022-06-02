@@ -18,9 +18,18 @@ int Engine::Init(const char* title, int xPos, int yPos, int width, int height, i
 				// Initialize subsystems...
 				if (IMG_Init(IMG_INIT_PNG | IMG_INIT_JPG) != 0)
 				{
+					if (Mix_Init(MIX_INIT_MP3) != 0)
+					{
+						Mix_OpenAudio(22050, AUDIO_S16SYS, 2, 2048); // Good for most games.
+						Mix_AllocateChannels(16);
+						m_pMusic = Mix_LoadMUS("Aud/????.mp3");
+						m_pSounds = Mix_LoadWAV("Aud/>>>>.wav");
+					}
 					// Do something here.
 				}
 				else return false; // Image init failed.
+
+				// Intialize mixer subsystem
 			}
 			else return false; // Renderer creation failed.
 		}
@@ -29,6 +38,7 @@ int Engine::Init(const char* title, int xPos, int yPos, int width, int height, i
 	else return false; // initalization failed.
 	m_fps = (Uint32)round(1.0 / (double)FPS * 1000); // Converts FPS into milliseconds, e.g. 16.67
 	m_keystates = SDL_GetKeyboardState(nullptr);
+	STMA::ChangeState(new  TitleState());
 	cout << "Initialization successful!" << endl;
 	m_running = true;
 	return true;
@@ -65,12 +75,12 @@ bool Engine::KeyDown(SDL_Scancode c)
 
 void Engine::Update()
 {
-	
+	STMA::Update();
 }
 
 void Engine::Render()
 {
-	
+	STMA::Render();
 }
 
 void Engine::Sleep()
@@ -107,11 +117,20 @@ int Engine::Run()
 	return 0;
 }
 
+Engine& Engine::Instance()
+{
+	static Engine instance;// create one single instance in a global scope.
+	return instance;
+}
+
 void Engine::Clean()
 {
 	cout << "Cleaning engine..." << endl;
+	STMA::Quit();
 	SDL_DestroyRenderer(m_pRenderer);
 	SDL_DestroyWindow(m_pWindow);
+	//invoke mix_closeAudio();
+	//invoke mix_quit();
 	IMG_Quit();
 	SDL_Quit();
 }

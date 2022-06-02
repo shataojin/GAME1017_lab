@@ -15,6 +15,6 @@
 
 int main(int argc, char* argv[])
 {
-	Engine e;
-	return e.Run();
+	//Engine e;
+	return Engine::Instance().Run();
 }
