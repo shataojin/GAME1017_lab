@@ -130,3 +130,30 @@ void PauseState::Exit()
 }
 
 
+
+
+
+
+
+
+
+
+
+
+void EndState::Update()
+{
+	if (Engine::Instance().KeyDown(SDL_SCANCODE_R))
+	{
+		cout << "changing to game state" << endl;
+		STMA::ChangeState(new TitleState);
+	}
+}
+void EndState::Render()
+{
+	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 0, 255, 255);
+	SDL_RenderClear(Engine::Instance().GetRenderer());
+	State::Render();
+}
+void EndState::Exit()
+{
+	cout << "exit end state----->" << endl;
