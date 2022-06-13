@@ -7,6 +7,11 @@ void Bullet::Update()
 {
 	m_dst.x += m_dx;
 	m_dst.y += m_dy;
+
+	if (m_dst.x > WIDTH || m_dst.x <0 || m_dst.y >WIDTH || m_dst.y < 0)
+	{
+		BdeletME = true;
+	}
 }
 
 void Bullet::Render()

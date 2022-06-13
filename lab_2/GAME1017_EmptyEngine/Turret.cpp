@@ -15,6 +15,11 @@ Turret::Turret(SDL_Rect dst) :m_dst(dst), m_src({ 0,0,100,100 }), m_angle(0.0), 
 
 void Turret::Update()
 {
+	if (m_dst.y > HEIGHT)
+	{
+		TdeletME = true;
+	}
+
 	if (m_fireCtr > 0) m_fireCtr--;
 	// Click and drag functionality.
 	if (EVMA::MouseHeld(1) && SDL_PointInRect(&EVMA::GetMousePos(), &m_dst))

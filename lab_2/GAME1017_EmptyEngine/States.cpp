@@ -157,6 +157,67 @@ void GameState::Update()
 		// for all bullets
 			// for all enemies
 				// check collision
+
+	////test loacltion
+	//for (unsigned i = 0; i < s_enemies.size(); i++)
+	//{
+	//	cout << "y" << s_enemies[i]->GetPos().y << endl;
+	//}
+
+	//for (unsigned i = 0; i < m_turrets.size(); i++)
+	//{
+	//	cout << "y" << m_turrets[i]->GetPos().y << endl;
+	//	cout << "x" << m_turrets[i]->GetPos().x << endl;
+	//}
+
+
+	//DONE NEW ENEMY
+	for (unsigned i = 0; i < s_enemies.size(); i++)
+	{
+		if (s_enemies[i]->GetPos().y > HEIGHT )
+		{
+			cout << "Enemy delete by wall"<<s_enemies[i]->GetPos().y << endl;
+			delete s_enemies[i];
+			s_enemies[i]=(new Enemy({ rand() % (1024 - 40), -57, 40, 57 }));
+		}
+	}
+	 
+	 //bullet done
+	SDL_Point cPos = GameState::Enemies()[0]->GetPos();
+	for (unsigned i = 0; i < m_turrets.size(); i++)
+	{
+		SDL_Point tPos = { m_turrets[i]->GetPos().x, m_turrets[i]->GetPos().y };
+		for (unsigned i = 0; i < s_bullets.size(); i++)
+		{
+			if (s_bullets[i]->m_dst.x > WIDTH || s_bullets[i]->m_dst.x <0 || s_bullets[i]->m_dst.y >WIDTH || s_bullets[i]->m_dst.y < 0)
+			{
+				delete s_bullets[i];
+				s_bullets[i] = (new Bullet({ (float)(tPos.x - 2), (float)(tPos.y + 2), (float)4, (float)4 }, cPos.x, cPos.y));
+			}
+		}
+	}
+
+
+	for (int e = 0; e < s_enemies.size(); e++)
+	{
+		SDL_Rect ePos = s_enemies[e]->m_dst;
+		for (int b= 0; b < s_bullets.size(); b++)
+		{
+			SDL_FRect bPos = s_bullets[b]->m_dst;
+			if(COMA::AABBCheck(ePos, bPos))
+			{
+				cout << "you killed one enemy......" << endl;
+				delete s_enemies[e];
+				s_enemies[e] = (new Enemy({ rand() % (1024 - 40), -57, 40, 57 }));
+				delete s_bullets[b];
+				s_bullets[b] = (new Bullet({ (float)(bPos.x - 2), (float)(bPos.y + 2), (float)4, (float)4 }, cPos.x, cPos.y));
+				
+			}
+		}
+	}
+
+
+
 }
 
 void GameState::Render()
