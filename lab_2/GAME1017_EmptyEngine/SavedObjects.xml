@@ -1,0 +1,10 @@
+<Root>
+    <GameObject class="enemies" x_position="532" y_position="-69"/>
+    <GameObject class="enemies" x_position="552" y_position="96"/>
+    <GameObject class="enemies" x_position="572" y_position="550"/>
+    <GameObject class="enemies" x_position="449" y_position="693"/>
+    <GameObject class="enemies" x_position="744" y_position="513"/>
+    <GameObject class="enemies" x_position="88" y_position="333"/>
+    <GameObject class="enemies" x_position="471" y_position="239"/>
+    <GameObject class="enemies" x_position="477" y_position="74"/>
+</Root>
