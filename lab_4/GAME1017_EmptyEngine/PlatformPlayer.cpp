@@ -8,7 +8,7 @@ m_state(STATE_JUMPING), m_isGrounded(false), m_isFacingLeft(false),
 m_maxVelX(9.0), m_maxVelY(JUMPFORCE), m_grav(GRAVITY), m_drag(0.85)
 {
 	m_accelX = m_accelY = m_velX = m_velY = 0.0;
-	// SetAnimation(?,?,?,?); // Initialize jump animation. 
+	SetAnimation(1, 8, 9);  // Initialize jump animation. 
 }
 
 void PlatformPlayer::Update()
@@ -19,16 +19,16 @@ void PlatformPlayer::Update()
 		// Transition to run.
 		if (EVMA::KeyPressed(SDL_SCANCODE_A) || EVMA::KeyPressed(SDL_SCANCODE_D))
 		{
-			// Set state to running.
-			// SetAnimation(?,?,?,?);
+			m_state = STATE_RUNNING;
+			SetAnimation(3, 0, 8, 256); // , 256
 		}
 		// Transition to jump.
 		else if (EVMA::KeyPressed(SDL_SCANCODE_SPACE) && m_isGrounded)
 		{
 			m_accelY = -JUMPFORCE; // SetAccelY(-JUMPFORCE);
 			m_isGrounded = false;
-			// Set state to jumping.
-			// SetAnimation(?,?,?,?);
+			m_state = STATE_JUMPING;
+			SetAnimation(1, 8, 9, 256);
 		}
 		break;
 	case STATE_RUNNING:
@@ -50,30 +50,31 @@ void PlatformPlayer::Update()
 		// Transition to idle.
 		if (!EVMA::KeyHeld(SDL_SCANCODE_A) && !EVMA::KeyHeld(SDL_SCANCODE_D))
 		{
-			// Set state to idling.
-			// SetAnimation(?,?,?,?);
+			m_state = STATE_IDLING;
+			SetAnimation(1, 0, 1, 256); // , 256
+			
 		}
 		// Transition to jump.
 		else if (EVMA::KeyPressed(SDL_SCANCODE_SPACE) && m_isGrounded)
 		{
 			m_accelY = -JUMPFORCE;
-			// Set accely to negative jump force.
 			m_isGrounded = false;
-			// Set state to jumping.
-			// SetAnimation(?,?,?,?);
+			m_state = STATE_JUMPING;
+			SetAnimation(1, 8, 9, 256);
 		}
 		break;
 	case STATE_JUMPING:
 		// Move in mid-air.
 		if (EVMA::KeyHeld(SDL_SCANCODE_A))
 		{
+			m_accelX = -1.5;
 			// Set accelX to negative.
 			if (!m_isFacingLeft)
 				m_isFacingLeft = true;
 		}
 		else if (EVMA::KeyHeld(SDL_SCANCODE_D))
 		{
-			m_accelX = -1.5;
+			m_accelX = 1.5;
 			// Set accelX to positive.
 			if (m_isFacingLeft)
 				m_isFacingLeft = false;
@@ -82,8 +83,8 @@ void PlatformPlayer::Update()
 		if (m_isGrounded)
 		{
 
-			// Set state to running.
-			// SetAnimation(?,?,?,?);
+			m_state = STATE_RUNNING;
+			SetAnimation(3, 0, 8, 256);
 		}
 		break;
 	}

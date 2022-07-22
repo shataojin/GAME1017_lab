@@ -5,6 +5,7 @@
 #include "EventManager.h"
 #include "CollisionManager.h"
 #include "SoundManager.h"
+#include "Primitives.h"
 #include"PlatformPlayer.h"
 #include "Button3.h"
 
@@ -48,10 +49,53 @@ TitleState::TitleState(){}
 void TitleState::Enter()
 {
 	TEMA::Load("Img/button.png", "play");
+	m_objects.push_back(pair<string, GameObject*>("play",
+		new PlayButton({ 0, 0, 400, 100 }, { 412, 350, 200, 50 }, "play")));
+}
+
+void TitleState::Update()
+{
+	for (auto const& i : m_objects)
+	{
+		i.second->Update();
+		if (STMA::StateChanging()) return;
+	}
+}
+
+void TitleState::Render()
+{
+	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 64, 0, 16, 255);
+	SDL_RenderClear(Engine::Instance().GetRenderer());
+	for (auto const& i : m_objects)
+		i.second->Render();
+	State::Render();
+}
+
+void TitleState::Exit()
+{
+	TEMA::Unload("play");
+	for (auto& i : m_objects)
+	{
+		delete i.second;
+		i.second = nullptr;
+	}
+	m_objects.clear();
+	m_objects.shrink_to_fit();
+}
+// End TitleState
+
+// Begin GameState
+GameState::GameState(){}
+
+void GameState::Enter() // Used for initialization.
+{
+	TEMA::Load("Img/Tiles.png", "tiles");
+	TEMA::Load("Img/Player.png", "player");
 	m_objects.push_back(pair<string, GameObject*>("level", new TiledLevel(
 		24, 32, 32, 32, "Dat/Tiledata.txt", "Dat/Level1.txt", "tiles")));
 	m_objects.push_back(pair<string, GameObject*>("player", new PlatformPlayer(
 		{ 0,0,128,128 }, { 299,480,64,64 })));
+	
 }
 
 void GameState::Update()
@@ -100,53 +144,6 @@ void GameState::Update()
 				pObj->SetX(pTile->x - pBound->w);
 			}
 		}
-	}
-}
-
-void TitleState::Render()
-{
-	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 64, 0, 16, 255);
-	SDL_RenderClear(Engine::Instance().GetRenderer());
-	for (auto const& i : m_objects)
-		i.second->Render();
-	State::Render();
-}
-
-void TitleState::Exit()
-{
-	TEMA::Unload("play");
-	for (auto& i : m_objects)
-	{
-		delete i.second;
-		i.second = nullptr;
-	}
-	m_objects.clear();
-	m_objects.shrink_to_fit();
-}
-// End TitleState
-
-// Begin GameState
-GameState::GameState(){}
-
-void GameState::Enter() // Used for initialization.
-{
-	TEMA::Load("Img/Tiles.png", "tiles");
-	m_objects.push_back(pair<string, GameObject*>("level", new TiledLevel(
-		24, 32, 32, 32, "Dat/Tiledata.txt", "Dat/Level1.txt", "tiles")));
-	
-}
-
-void GameState::Update()
-{
-	if (EVMA::KeyPressed(SDL_SCANCODE_X))
-	{
-		STMA::ChangeState(new TitleState());
-		return;
-	}
-	for (auto const& i : m_objects)
-	{
-		i.second->Update();
-		if (STMA::StateChanging()) return;
 	}
 }
 
