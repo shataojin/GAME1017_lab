@@ -167,6 +167,17 @@
     <ClInclude Include="TextureManager.h" />
     <ClInclude Include="TiledLevel.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="Img\button.png" />
+    <Image Include="Img\exit.png" />
+    <Image Include="Img\Player.png" />
+    <Image Include="Img\resume.png" />
+    <Image Include="Img\Tiles.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Dat\Level1.txt" />
+    <Text Include="Dat\Tiledata.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
