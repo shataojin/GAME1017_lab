@@ -5,7 +5,7 @@
 #include "EventManager.h"
 #include "CollisionManager.h"
 #include "SoundManager.h"
-
+#include"PlatformPlayer.h"
 #include "Button3.h"
 
 #include <iostream>
@@ -48,16 +48,58 @@ TitleState::TitleState(){}
 void TitleState::Enter()
 {
 	TEMA::Load("Img/button.png", "play");
-	m_objects.push_back(pair<string, GameObject*>("play",
-		new PlayButton({ 0, 0, 400, 100 }, { 412, 350, 200, 50 }, "play")));
+	m_objects.push_back(pair<string, GameObject*>("level", new TiledLevel(
+		24, 32, 32, 32, "Dat/Tiledata.txt", "Dat/Level1.txt", "tiles")));
+	m_objects.push_back(pair<string, GameObject*>("player", new PlatformPlayer(
+		{ 0,0,128,128 }, { 299,480,64,64 })));
 }
 
-void TitleState::Update()
+void GameState::Update()
 {
+	if (EVMA::KeyPressed(SDL_SCANCODE_X))
+	{
+		STMA::ChangeState(new TitleState());
+		return;
+	}
 	for (auto const& i : m_objects)
 	{
 		i.second->Update();
 		if (STMA::StateChanging()) return;
+	}
+
+	//check collision
+	PlatformPlayer* pObj = static_cast<PlatformPlayer*>(GetGo("player"));
+	SDL_FRect* pBound = pObj->GetDst();
+	TiledLevel* pLevel = static_cast<TiledLevel*>(GetGo("level"));
+
+	for (unsigned int i = 0; i < pLevel->GetObstacles().size(); i++)
+	{
+		SDL_FRect* pTile = pLevel->GetObstacles()[i]->GetDst();
+		if (COMA::AABBCheck(*pBound, *pTile))
+		{
+			if ((pBound->y + pBound->h) - (float)pObj->GetVelY() <= pTile->y)
+			{
+				pObj->StopY();
+				pObj->SetY(pTile->y - pBound->h);
+				pObj->SetGrounded(true);
+			}
+
+			else if (pBound->y - (float)pObj->GetVelY() >= pTile->y + pTile->h)
+			{
+				pObj->StopY();
+				pObj->SetY(pTile->y + pBound->h);
+			}
+			else if ((pBound->x + pBound->w) - (float)pObj->GetVelX() <= pTile->x)
+			{
+				pObj->StopX();
+				pObj->SetX(pTile->x - pBound->w);
+			}
+			else if (pBound->x - (float)pObj->GetVelX() >= pTile->x + pTile->w)
+			{
+				pObj->StopX();
+				pObj->SetX(pTile->x - pBound->w);
+			}
+		}
 	}
 }
 
