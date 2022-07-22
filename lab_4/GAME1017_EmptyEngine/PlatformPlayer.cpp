@@ -110,10 +110,12 @@ void PlatformPlayer::Update()
 
 void PlatformPlayer::Render()
 {
+	SDL_RenderCopyExF(Engine::Instance().GetRenderer(), TEMA::GetTexture("player"),
+		&m_src, &m_dst, 0.0, NULL, SDL_FLIP_NONE);
 	// To animate the sprite, use SDL_RenderCopyExF() and you will have to access the TextureManager and pass in a key such as "player".
 	// But for this part, we're just going to use a colored square.
-	SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 0, 0, 255);
-	SDL_RenderFillRectF(Engine::Instance().GetRenderer(), &m_dst);
+	/*SDL_SetRenderDrawColor(Engine::Instance().GetRenderer(), 255, 0, 0, 255);
+	SDL_RenderFillRectF(Engine::Instance().GetRenderer(), &m_dst);*/
 }
 
 void PlatformPlayer::Stop()
