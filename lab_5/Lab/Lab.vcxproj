@@ -130,6 +130,9 @@
   <ItemGroup>
     <ClCompile Include="Lab.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Mage.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
