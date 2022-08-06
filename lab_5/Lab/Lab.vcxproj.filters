@@ -23,5 +23,8 @@
     <ClInclude Include="Mage.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="Creature.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

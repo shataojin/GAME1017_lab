@@ -1,5 +1,6 @@
 #include <iostream>
-
+#include "Mage.h"
+#include "Creature.h"
 using namespace std;
 
 
