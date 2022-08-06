@@ -1,4 +1,15 @@
-﻿  PlatformPlayer.cpp
+﻿  Button3.cpp
+  CollisionManager.cpp
+  Engine.cpp
+  EventManager.cpp
+  Main.cpp
+  MathManager.cpp
+  PlatformPlayer.cpp
+  Primitives.cpp
+  SoundManager.cpp
+  StateManager.cpp
   States.cpp
+  TextureManager.cpp
+  TiledLevel.cpp
   正在生成代码...
-  GAME1017_EmptyEngine.vcxproj -> C:\Users\Administrator\Desktop\新建文件夹 (4)\GAME1017_W06_PlatformStart\Debug\GAME1017_EmptyEngine.exe
+  GAME1017_EmptyEngine.vcxproj -> C:\Users\Administrator\Desktop\code\GAME1017_lab\lab_4\Debug\GAME1017_EmptyEngine.exe
